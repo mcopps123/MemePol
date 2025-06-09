@@ -1,0 +1,94 @@
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+const sampleCards = [
+  {
+    name: "meme_lord.eth",
+    age: "??",
+    wallet: "0xF8d7...E01A",
+    crime: "Gas Fee War Criminal",
+    image:
+      "https://i.pinimg.com/564x/4e/97/e5/4e97e5b67b36250679ec59e7c9892f70.jpg",
+  },
+];
+
+export default function MemePol() {
+  const [cards, setCards] = useState(sampleCards);
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    wallet: "",
+    crime: "",
+    image: "",
+  });
+
+  const handleSubmit = () => {
+    if (formData.name && formData.wallet && formData.crime && formData.image) {
+      setCards([...cards, formData]);
+      setFormData({ name: "", age: "", wallet: "", crime: "", image: "" });
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white p-4">
+      <h1 className="text-4xl font-bold text-center mb-4">MemePol</h1>
+      <p className="text-center text-lg italic mb-8">
+        "Interpol couldn't, so we did."
+      </p>
+
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {cards.map((card, i) => (
+          <Card key={i} className="bg-zinc-900 text-white">
+            <img
+              src={card.image}
+              alt="pfp"
+              className="w-full h-48 object-cover rounded-t-2xl"
+            />
+            <CardContent className="p-4 space-y-1">
+              <p>🔹 NAME: {card.name}</p>
+              <p>🔹 AGE: {card.age || "??"}</p>
+              <p>🔹 WALLET: {card.wallet}</p>
+              <p>🔹 CHARGE: {card.crime}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mt-10 max-w-xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Create your MemePol Card</h2>
+        <div className="space-y-2">
+          <Input
+            placeholder="Alias / Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+          <Input
+            placeholder="Age (optional)"
+            value={formData.age}
+            onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+          />
+          <Input
+            placeholder="Wallet address"
+            value={formData.wallet}
+            onChange={(e) => setFormData({ ...formData, wallet: e.target.value })}
+          />
+          <Input
+            placeholder="Crime (e.g. Rugpull Expert, Gas Fee Killer)"
+            value={formData.crime}
+            onChange={(e) => setFormData({ ...formData, crime: e.target.value })}
+          />
+          <Input
+            placeholder="Image URL (PFP)"
+            value={formData.image}
+            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+          />
+          <Button className="w-full bg-red-600 hover:bg-red-700" onClick={handleSubmit}>
+            Add to MemePol
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
